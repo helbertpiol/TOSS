@@ -14,9 +14,6 @@ from screens.profile import ProfileScreen
 from screens.settings import SettingsScreen
 
 
-
-
-
 class TOSSApp(App):
 
     def build(self):
