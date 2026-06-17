@@ -1,52 +1,60 @@
 import sqlite3
+from pathlib import Path
 
-DB_NAME = "dbTOSS.db"
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_NAME = BASE_DIR / "data" / "dbTOSS.db"
 
 
 def connect():
-    return sqlite3.connect(DB_NAME)
-
-
-# def init_db():
-#     conn = connect()
-#     cur = conn.cursor()
-#
-#     cur.execute("""
-#     CREATE TABLE IF NOT EXISTS users (
-#         id INTEGER PRIMARY KEY AUTOINCREMENT,
-#         username TEXT UNIQUE NOT NULL,
-#         password TEXT NOT NULL
-#     )
-#     """)
-#
-#     conn.commit()
-#     conn.close()
+    conn = sqlite3.connect(DB_NAME)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
 def register_user(username, password, role, position, rememberToken, createdAt):
     try:
-        conn = connect()
-        cur = conn.cursor()
+        with connect() as conn:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                INSERT INTO tblUser (
+                    userName,
+                    strUserPosition,
+                    userPassword,
+                    userRole,
+                    remember_token,
+                    created_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (username, position, password, role, rememberToken, createdAt),
+            )
 
-        cur.execute("INSERT INTO tblUsers (userName, strUserPosition, "
-                    "userPassword, userRole, remember_token, created_at) VALUES (?, ?, ?, ?, ?, ?)",
-                    (username, position, password, role,  rememberToken, createdAt))
-
-        conn.commit()
-        conn.close()
         return True
-    except:
+    except sqlite3.Error:
         return False
 
 
 def validate_user(username, password):
-    conn = connect()
-    cur = conn.cursor()
+    with connect() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT
+                userID,
+                userName,
+                strUserPosition,
+                userRole
+            FROM tblUser
+            WHERE userName = ?
+              AND userPassword = ?
+            """,
+            (username, password),
+        )
 
-    cur.execute("SELECT * FROM tblUsers WHERE userName=? AND userPassword=?",
-                (username, password))
+        user = cur.fetchone()
 
-    user = cur.fetchone()
-    conn.close()
+    if user is None:
+        return None
 
-    return user is not None
+    return dict(user)
