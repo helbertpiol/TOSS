@@ -1,8 +1,14 @@
+import hashlib
+import hmac
+import os
 import sqlite3
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DB_NAME = BASE_DIR / "data" / "dbTOSS.db"
+HASH_NAME = "sha256"
+HASH_ITERATIONS = 120_000
+SALT_SIZE = 16
 
 
 def connect():
@@ -11,8 +17,53 @@ def connect():
     return conn
 
 
+def hash_password(password):
+    salt = os.urandom(SALT_SIZE)
+    password_hash = hashlib.pbkdf2_hmac(
+        HASH_NAME,
+        password.encode("utf-8"),
+        salt,
+        HASH_ITERATIONS,
+    )
+
+    return f"pbkdf2_{HASH_NAME}${HASH_ITERATIONS}${salt.hex()}${password_hash.hex()}"
+
+
+def verify_password(password, stored_password):
+    if not stored_password:
+        return False
+
+    if not stored_password.startswith("pbkdf2_"):
+        return hmac.compare_digest(password, stored_password)
+
+    try:
+        algorithm, iterations, salt_hex, password_hash_hex = stored_password.split("$")
+        hash_name = algorithm.replace("pbkdf2_", "")
+        new_hash = hashlib.pbkdf2_hmac(
+            hash_name,
+            password.encode("utf-8"),
+            bytes.fromhex(salt_hex),
+            int(iterations),
+        )
+        return hmac.compare_digest(new_hash.hex(), password_hash_hex)
+    except ValueError:
+        return False
+
+
+def username_exists(username):
+    with connect() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT 1 FROM tblUser WHERE lower(userName) = lower(?) LIMIT 1",
+            (username,),
+        )
+        return cur.fetchone() is not None
+
+
 def register_user(username, password, role, position, rememberToken, createdAt):
     try:
+        password_hash = hash_password(password)
+
         with connect() as conn:
             cur = conn.cursor()
             cur.execute(
@@ -27,7 +78,7 @@ def register_user(username, password, role, position, rememberToken, createdAt):
                 )
                 VALUES (?, ?, ?, ?, ?, ?)
                 """,
-                (username, position, password, role, rememberToken, createdAt),
+                (username, position, password_hash, role, rememberToken, createdAt),
             )
 
         return True
@@ -44,12 +95,13 @@ def validate_user(username, password):
                 userID,
                 userName,
                 strUserPosition,
-                userRole
+                userRole,
+                userPassword
             FROM tblUser
             WHERE userName = ?
-              AND userPassword = ?
+            LIMIT 1
             """,
-            (username, password),
+            (username,),
         )
 
         user = cur.fetchone()
@@ -57,4 +109,10 @@ def validate_user(username, password):
     if user is None:
         return None
 
-    return dict(user)
+    user = dict(user)
+
+    if not verify_password(password, user["userPassword"]):
+        return None
+
+    del user["userPassword"]
+    return user

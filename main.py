@@ -12,6 +12,7 @@ from screens.dashboard import DashboardScreen
 from screens.users import UsersScreen
 from screens.profile import ProfileScreen
 from screens.settings import SettingsScreen
+from screens.register import RegisterScreen
 
 
 class TOSSApp(App):
@@ -20,11 +21,13 @@ class TOSSApp(App):
 
         Builder.load_file("ui/login.kv")
         Builder.load_file("ui/dashboard.kv")
+        Builder.load_file("ui/register.kv")
 
         sm = ScreenManager()
 
         sm.add_widget(LoginScreen(name="login"))
         sm.add_widget(DashboardScreen(name="dashboard"))
+        sm.add_widget(RegisterScreen(name="register"))
         # sm.add_widget(UsersScreen(name="users"))
         # sm.add_widget(ProfileScreen(name="profile"))
         # sm.add_widget(SettingsScreen(name="settings"))
