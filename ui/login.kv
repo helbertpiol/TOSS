@@ -1,0 +1,75 @@
+<LoginScreen>
+
+    BoxLayout:
+
+        orientation: "vertical"
+
+        padding: 40
+
+        spacing: 15
+
+        canvas.before:
+
+            Color:
+                rgba: .95,.95,.95,1
+
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Widget:
+            size_hint_y: .2
+
+        Label:
+
+            text: "TOSS"
+
+            font_size: "36sp"
+
+            bold: True
+
+            color: .15,.15,.15,1
+
+        Label:
+
+            text: "Welcome Back"
+
+            font_size: "24sp"
+
+        TextInput:
+
+            id: txt_username
+
+            hint_text: "Username"
+
+            multiline: False
+
+            size_hint_y: None
+
+            height: 50
+
+        TextInput:
+
+            id: txt_password
+
+            hint_text: "Password"
+
+            password: True
+
+            multiline: False
+
+            size_hint_y: None
+
+            height: 50
+
+        Button:
+
+            text: "LOGIN"
+
+            size_hint_y: None
+
+            height: 50
+
+            on_release:
+
+                root.login()

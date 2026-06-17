@@ -1,0 +1,23 @@
+<DashboardScreen>
+
+    BoxLayout:
+
+        orientation: "vertical"
+
+        Label:
+
+            text: "Dashboard"
+
+            font_size: "30sp"
+
+        Button:
+
+            text: "Logout"
+
+            size_hint_y: None
+
+            height: 50
+
+            on_release:
+
+                app.root.current = "login"

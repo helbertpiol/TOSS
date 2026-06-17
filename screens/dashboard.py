@@ -2,4 +2,6 @@ from kivy.uix.screenmanager import Screen
 
 
 class DashboardScreen(Screen):
-    pass
+    def on_enter(self):
+        print("Dashboard Loaded")
+
