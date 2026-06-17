@@ -18,8 +18,8 @@ class TOSSApp(App):
 
     def build(self):
 
-        Builder.load_file("login.kv")
-        Builder.load_file("dashboard.kv")
+        Builder.load_file("ui/login.kv")
+        Builder.load_file("ui/dashboard.kv")
 
         sm = ScreenManager()
 
