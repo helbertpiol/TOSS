@@ -3,14 +3,32 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
+from kivy.app import App
+from kivy.uix.screenmanager import ScreenManager
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from screens.login import LoginScreen
+from screens.dashboard import DashboardScreen
+from screens.users import UsersScreen
+from screens.profile import ProfileScreen
+from screens.settings import SettingsScreen
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+class MainApp(App):
+
+    def build(self):
+
+        sm = ScreenManager()
+
+        sm.add_widget(LoginScreen(name="login"))
+        sm.add_widget(DashboardScreen(name="dashboard"))
+        sm.add_widget(UsersScreen(name="users"))
+        sm.add_widget(ProfileScreen(name="profile"))
+        sm.add_widget(SettingsScreen(name="settings"))
+
+        return sm
+
+
+if __name__ == "__main__":
+    MainApp().run()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
