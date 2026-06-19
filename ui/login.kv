@@ -1,99 +1,161 @@
-<LoginScreen>
+<LoginScreen>:
 
-    BoxLayout:
+    canvas.before:
+        Color:
+            rgba: 0.96,0.97,0.98,1
 
-        orientation: "vertical"
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
-        padding: 40
+    FloatLayout:
 
-        spacing: 15
+        BoxLayout:
 
-        canvas.before:
+            orientation: "vertical"
 
-            Color:
-                rgba: .95,.95,.95,1
+            size_hint: .45,.75
 
-            Rectangle:
-                pos: self.pos
-                size: self.size
+            pos_hint: {"center_x":.5,"center_y":.5}
 
-        Widget:
-            size_hint_y: .2
+            spacing: 15
 
-        Label:
+            padding: 30
 
-            text: "TOSS"
+            canvas.before:
 
-            font_size: "36sp"
+                Color:
+                    rgba:1,1,1,1
 
-            bold: True
+                RoundedRectangle:
+                    pos:self.pos
+                    size:self.size
+                    radius:[15]
 
-            color: .15,.15,.15,1
+            Widget:
+                size_hint_y:.2
 
-        Label:
+            Label:
 
-            text: "Welcome Back"
+                text:"TOSS"
 
-            font_size: "24sp"
+                font_size:"40sp"
 
-        TextInput:
+                bold:True
 
-            id: txt_username
+                color:.1,.2,.4,1
 
-            hint_text: "Username"
+            Label:
 
-            multiline: False
+                text:"Technical Operations Support Service"
 
-            size_hint_y: None
+                font_size:"14sp"
 
-            height: 50
+                color:.4,.4,.4,1
 
-        TextInput:
+            TextInput:
 
-            id: txt_password
+                id:txt_username
 
-            hint_text: "Password"
+                hint_text:"Username"
 
-            password: True
+                multiline:False
 
-            multiline: False
+                size_hint_y:None
 
-            size_hint_y: None
+                height:50
 
-            height: 50
+            TextInput:
 
-        Label:
+                id:txt_password
 
-            id: lbl_error
+                hint_text:"Password"
 
-            text: ""
+                password:True
 
-            color: 1, 0.1, 0.1, 1
+                multiline:False
 
-            size_hint_y: None
+                size_hint_y:None
 
-            height: 30
+                height:50
 
-        Button:
 
-            text: "LOGIN"
+            BoxLayout:
 
-            size_hint_y: None
+                size_hint_y:None
 
-            height: 50
+                height:40
 
-            on_release:
+                spacing:10
 
-                root.login()
+                CheckBox:
 
-        Button:
+                    id: chk_remember
 
-            text: "REGISTER USER"
+                    size_hint_x:None
 
-            size_hint_y: None
+                    width:40
 
-            height: 45
+                Label:
 
-            on_release:
+                    text:"Remember Me"
 
-                app.root.current = "register"
+                    color:.2,.2,.2,1
+
+                    font_size:"14sp"
+
+                    halign:"left"
+
+                    valign:"middle"
+
+                    text_size:self.size
+
+                    on_touch_down:
+
+                        if self.collide_point(*args[1].pos): chk_remember.active = not chk_remember.active
+
+            Button:
+
+                text:"LOGIN"
+
+                size_hint_y:None
+
+                height:55
+
+                background_normal:""
+
+                background_color:.08,.42,.82,1
+
+                on_release:
+
+                    root.login()
+
+            Button:
+
+                text:"REGISTER"
+
+                size_hint_y:None
+
+                height:55
+
+                background_normal:""
+
+                background_color:.08,.42,.82,1
+
+                on_release:
+
+                    app.root.current = "register"
+
+            Label:
+
+                id: lbl_error
+
+                text: ""
+
+                color: 1, 0.1, 0.1, 1
+
+                size_hint_y: None
+
+                height: 30
+
+            Widget:

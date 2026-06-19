@@ -1,130 +1,151 @@
-<RegisterScreen>
+<RegisterScreen>:
 
-    BoxLayout:
+    canvas.before:
 
-        orientation: "vertical"
+        Color:
+            rgba:.96,.97,.98,1
 
-        padding: 40
+        Rectangle:
+            pos:self.pos
+            size:self.size
 
-        spacing: 12
-
-        canvas.before:
-
-            Color:
-                rgba: .95, .95, .95, 1
-
-            Rectangle:
-                pos: self.pos
-                size: self.size
-
-        Label:
-
-            text: "Register User"
-
-            font_size: "28sp"
-
-            bold: True
-
-            color: .15, .15, .15, 1
-
-            size_hint_y: None
-
-            height: 50
-
-        TextInput:
-
-            id: txt_username
-
-            hint_text: "Username"
-
-            multiline: False
-
-            size_hint_y: None
-
-            height: 45
-
-        TextInput:
-
-            id: txt_position
-
-            hint_text: "Position"
-
-            multiline: False
-
-            size_hint_y: None
-
-            height: 45
-
-        Spinner:
-
-            id: spn_role
-
-            text: "Select Role"
-
-            values: ["Admin", "Technical Staff", "Viewer"]
-
-            size_hint_y: None
-
-            height: 45
-
-        TextInput:
-
-            id: txt_password
-
-            hint_text: "Password"
-
-            password: True
-
-            multiline: False
-
-            size_hint_y: None
-
-            height: 45
-
-        TextInput:
-
-            id: txt_confirm_password
-
-            hint_text: "Confirm Password"
-
-            password: True
-
-            multiline: False
-
-            size_hint_y: None
-
-            height: 45
-
-        Label:
-
-            id: lbl_message
-
-            text: ""
-
-            size_hint_y: None
-
-            height: 30
+    FloatLayout:
 
         BoxLayout:
 
-            spacing: 10
+            orientation:"vertical"
 
-            size_hint_y: None
+            size_hint:.50,.85
 
-            height: 50
+            pos_hint:{"center_x":.5,"center_y":.5}
+
+            spacing:12
+
+            padding:30
+
+            canvas.before:
+
+                Color:
+                    rgba:1,1,1,1
+
+                RoundedRectangle:
+                    pos:self.pos
+                    size:self.size
+                    radius:[15]
+
+            Label:
+
+                text:"Create Account"
+
+                font_size:"30sp"
+
+                bold:True
+
+                color:.15,.15,.3,1
+
+            TextInput:
+
+                id: txt_fullname
+
+                hint_text:"Full Name"
+
+                multiline: False
+
+                size_hint_y: None
+
+                height: 45
+
+            TextInput:
+
+                id: txt_username
+
+                hint_text:"Username"
+
+                multiline: False
+
+                size_hint_y: None
+
+                height: 45
+
+            Spinner:
+                id: spn_role
+
+                text:"Select Role"
+
+                values:["Administrator","Technical Staff"]
+
+                size_hint_y: None
+
+                height: 45
+
+            TextInput:
+
+                id: txt_password
+
+                hint_text:"Password"
+
+                multiline: False
+
+                size_hint_y: None
+
+                height: 45
+
+                password:True
+
+            TextInput:
+
+                id: txt_confirm_password
+
+                hint_text:"Confirm Password"
+
+                multiline: False
+
+                size_hint_y: None
+
+                height: 45
+
+                password:True
+
+            Label:
+
+                id: lbl_message
+
+                text: ""
+
+                size_hint_y: None
+
+                height: 30
 
             Button:
+                id: btn_username
 
-                text: "BACK"
+                text:"REGISTER"
 
-                on_release:
+                size_hint_y:None
 
-                    root.go_back()
+                height:55
 
-            Button:
+                background_normal:""
 
-                text: "REGISTER"
+                background_color:.08,.42,.82,1
 
                 on_release:
 
                     root.register()
+
+            Button:
+                id: btn_back
+
+                text:"BACK"
+
+                size_hint_y:None
+
+                height:55
+
+                background_normal:""
+
+                background_color:.08,.42,.82,1
+
+                on_release:
+
+                    root.go_back()

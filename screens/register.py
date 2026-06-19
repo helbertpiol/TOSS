@@ -8,12 +8,12 @@ from datetime import datetime
 class RegisterScreen(Screen):
     def register(self):
         username = self.ids.txt_username.text.strip()
-        position = self.ids.txt_position.text.strip()
+        fullname = self.ids.txt_fullname.text.strip()
         role = self.ids.spn_role.text.strip()
         password = self.ids.txt_password.text
         confirm_password = self.ids.txt_confirm_password.text
 
-        if not username or not position or not password or not confirm_password:
+        if not username or not fullname or not password or not confirm_password:
             self.ids.lbl_message.text = "Please complete all fields."
             self.ids.lbl_message.color = 1, 0.1, 0.1, 1
             return
@@ -43,7 +43,7 @@ class RegisterScreen(Screen):
             username=username,
             password=password,
             role=role,
-            position=position,
+            fullname=fullname,
             rememberToken="",
             createdAt=created_at,
         )
@@ -58,7 +58,7 @@ class RegisterScreen(Screen):
 
     def clear_form(self):
         self.ids.txt_username.text = ""
-        self.ids.txt_position.text = ""
+        self.ids.txt_fullname.text = ""
         self.ids.spn_role.text = "Select Role"
         self.ids.txt_password.text = ""
         self.ids.txt_confirm_password.text = ""
@@ -67,5 +67,7 @@ class RegisterScreen(Screen):
         app = App.get_running_app()
         if getattr(app, "current_user", None):
             app.root.current = "dashboard"
+            self.ids.lbl_message.text = ""
         else:
             app.root.current = "login"
+            self.ids.lbl_message.text = ""

@@ -4,6 +4,7 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 from kivy.app import App
+from kivy.clock import Clock
 from kivy.uix.screenmanager import ScreenManager
 from kivy.lang import Builder
 
@@ -13,6 +14,8 @@ from screens.users import UsersScreen
 from screens.profile import ProfileScreen
 from screens.settings import SettingsScreen
 from screens.register import RegisterScreen
+from database.db import get_user_by_remember_token
+from utils.session import load_remember_token
 
 
 class TOSSApp(App):
@@ -32,7 +35,18 @@ class TOSSApp(App):
         # sm.add_widget(ProfileScreen(name="profile"))
         # sm.add_widget(SettingsScreen(name="settings"))
 
+        self.current_user = None
+        Clock.schedule_once(self.try_auto_login, 0)
+
         return sm
+
+    def try_auto_login(self, dt):
+        token = load_remember_token()
+        user = get_user_by_remember_token(token)
+
+        if user:
+            self.current_user = user
+            self.root.current = "dashboard"
 
 
 if __name__ == "__main__":

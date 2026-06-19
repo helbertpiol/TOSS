@@ -1,6 +1,7 @@
 import hashlib
 import hmac
 import os
+import secrets
 import sqlite3
 from pathlib import Path
 
@@ -60,7 +61,7 @@ def username_exists(username):
         return cur.fetchone() is not None
 
 
-def register_user(username, password, role, position, rememberToken, createdAt):
+def register_user(username, password, role, rememberToken, createdAt, fullname):
     try:
         password_hash = hash_password(password)
 
@@ -70,15 +71,14 @@ def register_user(username, password, role, position, rememberToken, createdAt):
                 """
                 INSERT INTO tblUser (
                     userName,
-                    strUserPosition,
                     userPassword,
                     userRole,
                     remember_token,
-                    created_at
+                    created_at, userFullname
                 )
                 VALUES (?, ?, ?, ?, ?, ?)
                 """,
-                (username, position, password_hash, role, rememberToken, createdAt),
+                (username, password_hash, role, rememberToken, createdAt, fullname),
             )
 
         return True
@@ -94,9 +94,9 @@ def validate_user(username, password):
             SELECT
                 userID,
                 userName,
-                strUserPosition,
                 userRole,
-                userPassword
+                userPassword,
+                userFullname
             FROM tblUser
             WHERE userName = ?
             LIMIT 1
@@ -116,3 +116,53 @@ def validate_user(username, password):
 
     del user["userPassword"]
     return user
+
+
+def create_remember_token(user_id):
+    token = secrets.token_urlsafe(32)
+
+    with connect() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            "UPDATE tblUser SET remember_token = ? WHERE userID = ?",
+            (token, user_id),
+        )
+
+    return token
+
+
+def get_user_by_remember_token(token):
+    if not token:
+        return None
+
+    with connect() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT
+                userID,
+                userName,
+                userRole,
+                userFullname
+            FROM tblUser
+            WHERE remember_token = ?
+            LIMIT 1
+            """,
+            (token,),
+        )
+
+        user = cur.fetchone()
+
+    if user is None:
+        return None
+
+    return dict(user)
+
+
+def clear_remember_token(user_id):
+    with connect() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            "UPDATE tblUser SET remember_token = '' WHERE userID = ?",
+            (user_id,),
+        )

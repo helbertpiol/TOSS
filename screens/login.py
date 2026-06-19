@@ -1,7 +1,8 @@
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
 
-from database.db import validate_user
+from database.db import create_remember_token, validate_user
+from utils.session import save_remember_token
 
 
 class LoginScreen(Screen):
@@ -23,9 +24,15 @@ class LoginScreen(Screen):
             # Save current user
             app.current_user = user
 
+            if self.ids.chk_remember.active:
+                token = create_remember_token(user["userID"])
+                save_remember_token(token)
+
             # Navigate to Dashboard
             app.root.current = "dashboard"
+            self.ids.txt_username.text = ""
             self.ids.txt_password.text = ""
             self.ids.lbl_error.text = ""
+            self.ids.chk_remember.active = False
         else:
             self.ids.lbl_error.text = "Invalid username or password."
