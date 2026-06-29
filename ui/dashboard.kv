@@ -1,35 +1,265 @@
-<DashboardScreen>
+<ServiceCard@BoxLayout>:
+    service_name: ""
+    service_total: "0"
+    accent_color: .1, .36, .72, 1
+    orientation: "vertical"
+    padding: 16
+    spacing: 8
+    size_hint_y: None
+    height: 138
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10]
+    BoxLayout:
+        size_hint_y: None
+        height: 6
+        canvas.before:
+            Color:
+                rgba: root.accent_color
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [3]
+    Label:
+        text: root.service_total
+        color: .10, .16, .24, 1
+        font_size: "30sp"
+        bold: True
+        halign: "left"
+        valign: "middle"
+        text_size: self.size
+    Label:
+        text: root.service_name
+        color: .32, .36, .42, 1
+        font_size: "14sp"
+        halign: "left"
+        valign: "top"
+        text_size: self.size
+
+
+<DashboardScreen>:
+    canvas.before:
+        Color:
+            rgba: .94, .96, .98, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
     BoxLayout:
-
         orientation: "vertical"
 
-        Label:
-
-            text: "Dashboard"
-
-            font_size: "30sp"
-
-        Button:
-
-            text: "Register User"
-
+        BoxLayout:
+            orientation: "horizontal"
             size_hint_y: None
+            height: 86
+            padding: 28, 18
+            spacing: 16
+            canvas.before:
+                Color:
+                    rgba: .08, .16, .28, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
 
-            height: 50
+            BoxLayout:
+                orientation: "vertical"
+                spacing: 2
+                Label:
+                    text: "TOSS Dashboard"
+                    color: 1, 1, 1, 1
+                    font_size: "24sp"
+                    bold: True
+                    halign: "left"
+                    valign: "bottom"
+                    text_size: self.size
+                Label:
+                    text: "Annual technical services summary"
+                    color: .76, .82, .90, 1
+                    font_size: "13sp"
+                    halign: "left"
+                    valign: "top"
+                    text_size: self.size
 
-            on_release:
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_x: None
+                width: 280
+                Label:
+                    text: "Signed in as"
+                    color: .76, .82, .90, 1
+                    font_size: "12sp"
+                    halign: "right"
+                    valign: "bottom"
+                    text_size: self.size
+                Label:
+                    text: root.display_name
+                    color: 1, 1, 1, 1
+                    font_size: "16sp"
+                    bold: True
+                    halign: "right"
+                    valign: "top"
+                    shorten: True
+                    shorten_from: "right"
+                    text_size: self.size
 
-                app.root.current = "register"
+        ScrollView:
+            do_scroll_x: False
 
-        Button:
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                padding: 28
+                spacing: 22
 
-            text: "Logout"
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: 138
+                    spacing: 18
 
-            size_hint_y: None
+                    BoxLayout:
+                        orientation: "vertical"
+                        padding: 22
+                        spacing: 8
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [10]
+                        Label:
+                            text: "Total Services"
+                            color: .34, .39, .46, 1
+                            font_size: "14sp"
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
+                        Label:
+                            text: root.total_services
+                            color: .08, .16, .28, 1
+                            font_size: "42sp"
+                            bold: True
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
+                        Label:
+                            text: "Consolidated for " + root.current_year
+                            color: .50, .55, .62, 1
+                            font_size: "13sp"
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
 
-            height: 50
+                    BoxLayout:
+                        orientation: "vertical"
+                        padding: 22
+                        spacing: 8
+                        canvas.before:
+                            Color:
+                                rgba: .10, .36, .72, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [10]
+                        Label:
+                            text: "Reporting Year"
+                            color: .82, .90, 1, 1
+                            font_size: "14sp"
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
+                        Label:
+                            text: root.current_year
+                            color: 1, 1, 1, 1
+                            font_size: "42sp"
+                            bold: True
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
+                        Label:
+                            text: "Live totals will appear here once service records are added."
+                            color: .82, .90, 1, 1
+                            font_size: "13sp"
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
 
-            on_release:
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: 48
+                    Label:
+                        text: "Service Categories"
+                        color: .10, .16, .24, 1
+                        font_size: "20sp"
+                        bold: True
+                        halign: "left"
+                        valign: "middle"
+                        text_size: self.size
+                    Button:
+                        text: "Register User"
+                        size_hint_x: None
+                        width: 150
+                        background_normal: ""
+                        background_color: .10, .36, .72, 1
+                        color: 1, 1, 1, 1
+                        on_release:
+                            app.root.current = "register"
+                    Button:
+                        text: "Logout"
+                        size_hint_x: None
+                        width: 110
+                        background_normal: ""
+                        background_color: .80, .18, .22, 1
+                        color: 1, 1, 1, 1
+                        on_release:
+                            root.logout()
 
-                root.logout()
+                GridLayout:
+                    cols: 3
+                    spacing: 16
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                    ServiceCard:
+                        service_name: root.services[0]["name"] if root.services else ""
+                        service_total: root.services[0]["total"] if root.services else "0"
+                        accent_color: root.services[0]["accent"] if root.services else (.1, .36, .72, 1)
+                    ServiceCard:
+                        service_name: root.services[1]["name"] if len(root.services) > 1 else ""
+                        service_total: root.services[1]["total"] if len(root.services) > 1 else "0"
+                        accent_color: root.services[1]["accent"] if len(root.services) > 1 else (.1, .36, .72, 1)
+                    ServiceCard:
+                        service_name: root.services[2]["name"] if len(root.services) > 2 else ""
+                        service_total: root.services[2]["total"] if len(root.services) > 2 else "0"
+                        accent_color: root.services[2]["accent"] if len(root.services) > 2 else (.1, .36, .72, 1)
+                    ServiceCard:
+                        service_name: root.services[3]["name"] if len(root.services) > 3 else ""
+                        service_total: root.services[3]["total"] if len(root.services) > 3 else "0"
+                        accent_color: root.services[3]["accent"] if len(root.services) > 3 else (.1, .36, .72, 1)
+                    ServiceCard:
+                        service_name: root.services[4]["name"] if len(root.services) > 4 else ""
+                        service_total: root.services[4]["total"] if len(root.services) > 4 else "0"
+                        accent_color: root.services[4]["accent"] if len(root.services) > 4 else (.1, .36, .72, 1)
+                    ServiceCard:
+                        service_name: root.services[5]["name"] if len(root.services) > 5 else ""
+                        service_total: root.services[5]["total"] if len(root.services) > 5 else "0"
+                        accent_color: root.services[5]["accent"] if len(root.services) > 5 else (.1, .36, .72, 1)
+                    ServiceCard:
+                        service_name: root.services[6]["name"] if len(root.services) > 6 else ""
+                        service_total: root.services[6]["total"] if len(root.services) > 6 else "0"
+                        accent_color: root.services[6]["accent"] if len(root.services) > 6 else (.1, .36, .72, 1)
+                    ServiceCard:
+                        service_name: root.services[7]["name"] if len(root.services) > 7 else ""
+                        service_total: root.services[7]["total"] if len(root.services) > 7 else "0"
+                        accent_color: root.services[7]["accent"] if len(root.services) > 7 else (.1, .36, .72, 1)
+                    ServiceCard:
+                        service_name: root.services[8]["name"] if len(root.services) > 8 else ""
+                        service_total: root.services[8]["total"] if len(root.services) > 8 else "0"
+                        accent_color: root.services[8]["accent"] if len(root.services) > 8 else (.1, .36, .72, 1)
