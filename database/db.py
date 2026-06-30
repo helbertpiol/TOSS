@@ -183,3 +183,120 @@ def get_service_types():
         rows = cur.fetchall()
 
     return [dict(row) for row in rows]
+
+
+def get_departments():
+    with connect() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT
+                deptID,
+                deptCode,
+                deptName
+            FROM tblDept
+            ORDER BY deptCode, deptName
+            """
+        )
+        rows = cur.fetchall()
+
+    return [dict(row) for row in rows]
+
+
+def get_equipment_services(service_type_id):
+    with connect() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT
+                esID,
+                esName,
+                serviceID,
+                serviceTypeID
+            FROM tblEquip_Services
+            WHERE serviceTypeID = ?
+            ORDER BY esID
+            """,
+            (service_type_id,),
+        )
+        rows = cur.fetchall()
+
+    return [dict(row) for row in rows]
+
+
+def get_statuses(service_type_id):
+    with connect() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT
+                statusID,
+                statusName
+            FROM tblStatus
+            WHERE serviceTypeID = ?
+            ORDER BY statusID
+            """,
+            (service_type_id,),
+        )
+        rows = cur.fetchall()
+
+    return [dict(row) for row in rows]
+
+
+def save_repair_troubleshoot_record(accomplishment, repair):
+    with connect() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO tblAccomplishment (
+                deptID,
+                userID,
+                strRequester,
+                serviceID,
+                serviceTypeID,
+                esID,
+                strConstructed,
+                dtDate,
+                unitQty,
+                unitUom,
+                requestDetails
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                accomplishment["deptID"],
+                accomplishment["userID"],
+                accomplishment["strRequester"],
+                accomplishment["serviceID"],
+                accomplishment["serviceTypeID"],
+                accomplishment["esID"],
+                accomplishment["strConstructed"],
+                accomplishment["dtDate"],
+                accomplishment["unitQty"],
+                accomplishment["unitUom"],
+                accomplishment["requestDetails"],
+            ),
+        )
+        acc_id = cur.lastrowid
+
+        cur.execute(
+            """
+            INSERT INTO tblICTrepairs (
+                accID,
+                strFindings,
+                strSolution,
+                strRemarks,
+                srfID
+            )
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (
+                acc_id,
+                repair["strFindings"],
+                repair["strSolution"],
+                repair["strRemarks"],
+                repair["srfID"],
+            ),
+        )
+
+    return acc_id
