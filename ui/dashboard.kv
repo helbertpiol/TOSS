@@ -203,6 +203,15 @@
                         valign: "middle"
                         text_size: self.size
                     Button:
+                        text: "Record Service"
+                        size_hint_x: None
+                        width: 150
+                        background_normal: ""
+                        background_color: .06, .55, .45, 1
+                        color: 1, 1, 1, 1
+                        on_release:
+                            app.root.current = "technical_service_request"
+                    Button:
                         text: "Register User"
                         size_hint_x: None
                         width: 150

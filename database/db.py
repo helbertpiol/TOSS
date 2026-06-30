@@ -166,3 +166,20 @@ def clear_remember_token(user_id):
             "UPDATE tblUser SET remember_token = '' WHERE userID = ?",
             (user_id,),
         )
+
+
+def get_service_types():
+    with connect() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT
+                serviceTypeID,
+                trim(serviceTypeName) AS serviceTypeName
+            FROM tblServiceType
+            ORDER BY serviceTypeID
+            """
+        )
+        rows = cur.fetchall()
+
+    return [dict(row) for row in rows]

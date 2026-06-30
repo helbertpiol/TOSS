@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8445c8f5-86a0-4597-b58c-ccbfeca4537a" name="Changes" comment="Create remember me process, and improve the user registration process">
+    <list default="true" id="8445c8f5-86a0-4597-b58c-ccbfeca4537a" name="Changes" comment="Create the Dashboard Layout">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/dbTOSS.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/dbTOSS.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/screens/dashboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/dashboard.kv" beforeDir="false" afterPath="$PROJECT_DIR$/ui/dashboard.kv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -179,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781859806317</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Create the Dashboard Layout">
+      <option name="closed" value="true" />
+      <created>1782750940681</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1782750940681</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -214,6 +223,7 @@
     <MESSAGE value="Create Login connection with actual Database with authentication." />
     <MESSAGE value="Create Register Module, and Improve Login by hashing the password" />
     <MESSAGE value="Create remember me process, and improve the user registration process" />
-    <option name="LAST_COMMIT_MESSAGE" value="Create remember me process, and improve the user registration process" />
+    <MESSAGE value="Create the Dashboard Layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create the Dashboard Layout" />
   </component>
 </project>

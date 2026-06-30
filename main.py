@@ -14,6 +14,8 @@ from screens.users import UsersScreen
 from screens.profile import ProfileScreen
 from screens.settings import SettingsScreen
 from screens.register import RegisterScreen
+from screens.technical_service_request import TechnicalServiceRequestScreen
+from screens.repair_troubleshoot import RepairTroubleshootScreen
 from database.db import get_user_by_remember_token
 from utils.session import load_remember_token
 
@@ -25,12 +27,16 @@ class TOSSApp(App):
         Builder.load_file("ui/login.kv")
         Builder.load_file("ui/dashboard.kv")
         Builder.load_file("ui/register.kv")
+        Builder.load_file("ui/technical_service_request.kv")
+        Builder.load_file("ui/repair_troubleshoot.kv")
 
         sm = ScreenManager()
 
         sm.add_widget(LoginScreen(name="login"))
         sm.add_widget(DashboardScreen(name="dashboard"))
         sm.add_widget(RegisterScreen(name="register"))
+        sm.add_widget(TechnicalServiceRequestScreen(name="technical_service_request"))
+        sm.add_widget(RepairTroubleshootScreen(name="repair_troubleshoot"))
         # sm.add_widget(UsersScreen(name="users"))
         # sm.add_widget(ProfileScreen(name="profile"))
         # sm.add_widget(SettingsScreen(name="settings"))
