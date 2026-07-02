@@ -1,0 +1,222 @@
+<ServiceTypeCard>:
+    orientation: "vertical"
+    size_hint: None, None
+    width: 292
+    height: 330
+    padding: 14
+    spacing: 12
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [12]
+    BoxLayout:
+        size_hint_y: None
+        height: 172
+        padding: 18
+        canvas.before:
+            Color:
+                rgba: root.accent_color
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [10]
+        Image:
+            source: root.image_source
+            allow_stretch: True
+            size_hint: None, None
+            size: 150, 150
+            fit_mode: 'contain'
+            keep_ratio: True
+        Label:
+            text: str(root.service_id).zfill(2)
+            color: 1, 1, 1, 1
+            font_size: "36sp"
+            bold: True
+            halign: "right"
+            valign: "bottom"
+            text_size: self.size
+    Label:
+        text: root.service_name
+        color: .10, .16, .24, 1
+        font_size: "17sp"
+        bold: True
+        halign: "left"
+        valign: "top"
+        text_size: self.size
+    Label:
+        text: root.service_description
+        color: .42, .47, .54, 1
+        font_size: "12sp"
+        halign: "left"
+        valign: "top"
+        text_size: self.size
+
+
+<TechnicalServiceRequestScreen>:
+    canvas.before:
+        Color:
+            rgba: .94, .96, .98, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: 82
+            padding: 26, 16
+            spacing: 14
+            canvas.before:
+                Color:
+                    rgba: .08, .16, .28, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    text: "Technical Service Request"
+                    color: 1, 1, 1, 1
+                    font_size: "23sp"
+                    bold: True
+                    halign: "left"
+                    valign: "bottom"
+                    text_size: self.size
+                Label:
+                    text: "Enter common service details, then choose the service type"
+                    color: .76, .82, .90, 1
+                    font_size: "13sp"
+                    halign: "left"
+                    valign: "top"
+                    text_size: self.size
+            Button:
+                text: "Back"
+                size_hint: None, None
+                width: 105
+                height: 44
+                background_normal: ""
+                background_color: .18, .28, .42, 1
+                color: 1, 1, 1, 1
+                on_release:
+                    app.root.current = "dashboard"
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: 14 if root.width < 650 else 28
+            spacing: 14 if root.width < 650 else 18
+
+            GridLayout:
+                cols: 1 if root.width < 760 else 2
+                spacing: 14
+                size_hint_y: None
+                height: self.minimum_height
+
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 6
+                    size_hint_y: None
+                    height: 78
+                    Label:
+                        text: "Date of Service"
+                        color: .25, .30, .36, 1
+                        font_size: "13sp"
+                        size_hint_y: None
+                        height: 24
+                        halign: "left"
+                        text_size: self.size
+                    Button:
+                        id: btn_service_date
+                        text: "Select date"
+                        size_hint_y: None
+                        height: 48
+                        halign: "left"
+                        valign: "middle"
+                        text_size: self.size
+                        background_normal: ""
+                        background_color: 1, 1, 1, 1
+                        color: .10, .16, .24, 1
+                        on_release:
+                            root.open_date_picker()
+
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 6
+                    size_hint_y: None
+                    height: 78
+                    Label:
+                        text: "Department / Agency"
+                        color: .25, .30, .36, 1
+                        font_size: "13sp"
+                        size_hint_y: None
+                        height: 24
+                        halign: "left"
+                        text_size: self.size
+                    Spinner:
+                        id: spn_department
+                        text: "Select department / agency"
+                        values: []
+                        size_hint_y: None
+                        height: 48
+
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 6
+                    size_hint_y: None
+                    height: 78
+                    Label:
+                        text: "Requester"
+                        color: .25, .30, .36, 1
+                        font_size: "13sp"
+                        size_hint_y: None
+                        height: 24
+                        halign: "left"
+                        text_size: self.size
+                    TextInput:
+                        id: txt_requester
+                        hint_text: "Name of requesting user"
+                        multiline: False
+                        size_hint_y: None
+                        height: 48
+
+            Label:
+                text: "Swipe horizontally to browse services"
+                color: .24, .29, .36, 1
+                font_size: "15sp"
+                size_hint_y: None
+                height: 28
+                halign: "left"
+                valign: "middle"
+                text_size: self.size
+
+            ScrollView:
+                do_scroll_x: True
+                do_scroll_y: False
+                bar_width: 8
+                scroll_type: ["bars", "content"]
+
+                GridLayout:
+                    id: service_type_container
+                    rows: 1
+                    spacing: 18
+                    padding: 2, 8
+                    size_hint_x: None
+                    width: self.minimum_width
+                    size_hint_y: None
+                    height: 352
+
+            Label:
+                id: lbl_message
+                text: ""
+                color: .72, .22, .32, 1
+                font_size: "14sp"
+                size_hint_y: None
+                height: 34
+                halign: "left"
+                valign: "middle"
+                text_size: self.size
